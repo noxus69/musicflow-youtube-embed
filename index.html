@@ -3,59 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d1018">
+<meta name="theme-color" content="#0b0d0d">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>MusicFlow · Reproductor YouTube v3.3</title>
+<title>MusicFlow · Reproductor YouTube v3.4</title>
 <style>
-:root{--bg:#0d1018;--panel:#171c27;--panel2:#202634;--line:#343b4d;--ink:#f5f6fa;--muted:#aab3c5;--gold:#edbd60;--good:#73d8ad;--danger:#ff9b9b}
-*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
-main{max-width:640px;margin:auto;padding:16px 14px 42px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px} .brand{display:flex;align-items:center;gap:10px}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#ffe19c,#ce8c32);display:grid;place-items:center;color:#252015;font-size:23px;font-weight:900}.brand strong{font-size:20px;letter-spacing:-.6px}.sub{color:var(--muted);font-size:12px}.tag{font-size:11px;border:1px solid #8a723d;color:#f6d486;background:#332b1d;padding:6px 9px;border-radius:99px}
-section{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:14px}h1{font-size:22px;line-height:1.25;letter-spacing:-.5px;margin:0 0 5px}h2{font-size:16px;margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:12px}.hint{color:#d0b477;background:#2a261e;border:1px solid #54452b;border-radius:12px;padding:10px;font-size:12px;margin:10px 0 0}.grid{display:grid;gap:10px}.row{display:flex;gap:8px;align-items:center}.split{justify-content:space-between}.grow{flex:1;min-width:0}label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}input{width:100%;height:46px;background:#0f1420;border:1px solid #4a5366;color:#fff;border-radius:11px;padding:0 12px;font:inherit;outline:none}input:focus{border-color:var(--gold);box-shadow:0 0 0 2px #eab34b30}input::placeholder{color:#7d879a}button,a.btn{appearance:none;border:0;cursor:pointer;border-radius:11px;min-height:42px;padding:10px 13px;background:#2b3243;color:#fafafa;font-weight:750;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}button.primary{background:var(--gold);color:#1f1a10;font-weight:800}button.secondary{border:1px solid var(--line)}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.full{width:100%}.player-shell{background:#000;border-radius:12px;overflow:hidden;border:1px solid #303844;margin:12px 0;min-height:200px;aspect-ratio:16 / 9}.player-shell iframe{display:block;width:100%;height:100%;min-height:200px;border:0}.state{font-size:12px;color:var(--good);display:flex;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:50%;background:var(--good)}.current-title{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.progress{appearance:none;width:100%;height:8px;border:0;border-radius:99px;background:#383f4f;overflow:hidden;margin:8px 0}.progress::-webkit-progress-bar{background:#383f4f;border-radius:99px}.progress::-webkit-progress-value{background:var(--gold);border-radius:99px}.progress::-moz-progress-bar{background:var(--gold);border-radius:99px}.controls{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px;margin-top:10px}.controls button{height:48px}.queue-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}.queue-list li{padding:10px;background:#111722;border:1px solid #333c4e;border-radius:12px;display:flex;align-items:center;gap:9px}.thumb{width:56px;aspect-ratio:16/10;object-fit:cover;border-radius:7px;background:#303747;flex-shrink:0}.song-title{font-size:13px;font-weight:700;overflow-wrap:anywhere;line-height:1.25}.mini{font-size:11px;color:var(--muted);margin-top:2px}.btn-small{min-width:37px;min-height:36px;padding:5px!important;font-size:16px}.empty{text-align:center;padding:19px 10px;color:var(--muted);font-size:13px}.status{color:var(--muted);font-size:12px;min-height:20px;margin-top:9px}.status.error{color:var(--danger)}.status.ok{color:var(--good)}.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#1f2735;border:1px solid #394257;padding:7px 10px;border-radius:9px;font-size:12px}.footer{font-size:12px;line-height:1.6;color:var(--muted)}.toggle{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:650}.toggle input{width:18px;height:18px;accent-color:var(--gold)}.searchlink{font-size:12px;color:#f3d28e;text-decoration:underline;text-underline-offset:3px}.warning{color:#ffc8a4}#player-placeholder{height:100%;min-height:200px;display:grid;place-items:center;text-align:center;color:#b2b4bb;padding:15px}
-.incident-list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:8px}.incident-list li{padding:10px 12px;background:#111722;border:1px solid var(--line);border-radius:11px;font-size:12px}.incident-list strong{display:block;font-size:13px}.incident-list span{color:var(--muted)}.badge-error{color:var(--danger)!important}.tag-success{color:var(--good)!important}@media(min-width:530px){main{padding:23px 20px 44px}.player-shell{min-height:260px}.player-shell iframe{min-height:260px}}@media(max-width:350px){.brand strong{font-size:18px}button{padding:9px 9px}}
+
+:root{
+ --bg:#0b0d0d;--panel:#151918;--panel2:#1e2421;--line:#2b332e;
+ --ink:#f6f8f6;--muted:#a0aca4;--gold:#1ed760;--good:#3de583;--danger:#ffa0a8;
+ --radius:18px;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark;scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 24% -3%,#173225 0%,transparent 36%),var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit}
+button,a{touch-action:manipulation}
+button,a.btn{appearance:none;cursor:pointer;border:0;border-radius:999px;min-height:44px;padding:10px 17px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#292f2b;color:var(--ink);font-weight:700;text-decoration:none;transition:background .2s,transform .2s}
+button:active{transform:scale(.975)}
+button:hover{background:#383f3a}
+button.primary{background:var(--gold);color:#092111;font-weight:850}
+button.primary:hover{background:#5bed86}
+button.secondary{background:#262c28;border:1px solid #414c44}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.app{max-width:1480px;margin:auto;padding:0 26px 34px}
+.topbar{height:77px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #ffffff11;margin-bottom:22px}
+.brand{display:flex;gap:11px;align-items:center}
+.logo{height:44px;width:44px;border-radius:14px;background:var(--gold);color:#05240f;font-size:28px;font-weight:950;display:grid;place-items:center;box-shadow:0 8px 34px #1ed76021}
+.brand strong{font-size:23px;line-height:1;font-weight:850;letter-spacing:-.8px}
+.sub{margin-top:5px;color:var(--muted);font-size:11px;letter-spacing:.1px}
+.header-right{display:flex;align-items:center;gap:12px}
+.tag{border:1px solid #327748;color:#a5f2b4;border-radius:999px;background:#153624;padding:7px 11px;font-size:11px;font-weight:750}
+.workspace{display:grid;grid-template-columns:minmax(0,1.56fr) minmax(330px,0.92fr);gap:20px;align-items:start}
+.primary-column,.secondary-column{min-width:0;display:grid;gap:17px}
+.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.65px;color:var(--gold)}
+.hero{padding:10px 4px 1px}
+.hero h1{font-size:clamp(27px,3vw,37px);letter-spacing:-1.25px;line-height:1.13;margin:8px 0 9px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.hero p{font-size:13px;margin:0;line-height:1.65;max-width:700px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0;box-shadow:0 10px 35px #00000010}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.panel-head h2{font-size:20px;font-weight:800;letter-spacing:-.55px;margin:0}
+.heading-copy{min-width:0}
+.heading-subtitle{font-size:12px;color:var(--muted);margin:4px 0 0}
+.state{display:inline-flex;align-items:center;gap:7px;color:#d5f2db;background:#1c3327;border:1px solid #2e513b;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.dot{height:7px;width:7px;border-radius:50%;background:var(--good)}
+.player-panel{background:linear-gradient(145deg,#1a2b20 0%,#151918 44%,#141816 100%);border-color:#34513c}
+.player-shell{width:100%;aspect-ratio:16/9;min-height:205px;border-radius:13px;background:#030403;overflow:hidden;margin:0 0 18px;border:1px solid #38413b}
+.player-shell iframe{display:block;width:100%;height:100%;min-height:205px;border:0}
+.now-row{display:flex;align-items:center;gap:13px;min-width:0}
+.sound-mark{height:50px;width:50px;flex:0 0 50px;background:#254c34;border-radius:11px;display:flex;align-items:end;justify-content:center;gap:4px;padding:13px}
+.sound-mark i{display:block;width:4px;border-radius:4px;background:var(--gold);height:10px}
+.sound-mark i:nth-child(2){height:22px}.sound-mark i:nth-child(3){height:16px}.sound-mark i:nth-child(4){height:12px}
+.playing-meta{min-width:0;flex:1}
+.playing-label{font-size:10px;font-weight:850;letter-spacing:1.2px;color:var(--gold);margin-bottom:4px}
+.current-title{font-size:21px;font-weight:850;line-height:1.25;letter-spacing:-.45px;overflow-wrap:anywhere}
+.now-status{font-size:12px;color:var(--muted);margin-top:5px}
+.time-row{display:flex;align-items:center;justify-content:space-between;color:#bfcac0;font-size:12px;font-variant-numeric:tabular-nums;margin-top:21px}
+.progress{display:block;appearance:none;width:100%;height:5px;border:0;border-radius:999px;background:#3b453f;overflow:hidden;margin:8px 0 19px}
+.progress::-webkit-progress-bar{background:#3b453f}
+.progress::-webkit-progress-value{background:var(--gold);border-radius:999px}
+.progress::-moz-progress-bar{background:var(--gold)}
+.controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.28fr) minmax(0,1fr);gap:9px}
+.controls button{min-height:50px;white-space:nowrap;font-size:13px;padding:9px 8px}
+.player-options{border-top:1px solid #ffffff13;margin-top:19px;padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.toggle{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:760;cursor:pointer}
+.toggle input{width:19px;height:19px;accent-color:var(--gold);margin:0}
+.status{font-size:12px;color:var(--muted);min-height:19px;margin-top:12px;line-height:1.5}
+.status.error{color:var(--danger)}
+.status.ok{color:#91eeb0}
+#player-status{margin-bottom:0}
+.add-panel .panel-head{margin-bottom:17px}
+.grid{display:grid;gap:12px}
+.form-fields{display:grid;grid-template-columns:1fr;gap:12px}
+label.field-label{display:block;font-size:12px;color:#d7dfd8;font-weight:750;margin-bottom:6px}
+input[type="text"],input[type="url"]{width:100%;height:49px;border-radius:10px;background:#0d1310;border:1px solid #414c43;color:var(--ink);outline:0;padding:0 13px;font-size:14px}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #1ed76018}
+input::placeholder{color:#7e9081}
+.row{display:flex;align-items:center;gap:9px}
+.split{justify-content:space-between}
+.grow{flex:1;min-width:0}
+.form-actions{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr);gap:9px}
+.form-actions button{min-height:47px;font-size:13px}
+.form-note{font-size:11px;color:var(--muted);line-height:1.5;margin:9px 0 0}
+.queue-panel{padding:19px}
+.queue-stats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 15px}
+.stat{background:#232a24;color:#d7e7db;border:1px solid #334037;padding:7px 10px;border-radius:9px;font-size:11px;font-weight:650}
+.queue-list{list-style:none;padding:0;margin:0;display:grid;gap:4px;max-height:min(66vh,740px);overflow-y:auto;scrollbar-color:#4e6453 transparent;scrollbar-width:thin}
+.queue-list li{display:flex;align-items:center;gap:10px;padding:10px 6px;border-bottom:1px solid #2a332d;min-width:0}
+.queue-list li:last-child{border-bottom:0}
+.thumb{width:58px;height:42px;object-fit:cover;border-radius:7px;background:#252e28;flex:0 0 58px}
+.song-title{font-size:13px;font-weight:750;line-height:1.28;overflow-wrap:anywhere}
+.mini{font-size:11px;color:var(--muted);margin-top:4px}
+.btn-small{padding:0!important;min-height:36px;min-width:36px;font-size:17px;flex-shrink:0}
+.queue-list .btn-small{border-radius:50%}
+.queue-list .btn-small:last-child{background:transparent;border-color:transparent;color:#a4ada6}
+.queue-list .btn-small:last-child:hover{color:var(--danger)}
+.queue-empty{padding:35px 18px;text-align:center;border:1px dashed #36463b;border-radius:13px;background:#1a211c}
+.empty{color:var(--muted);font-size:12px;line-height:1.65}
+.empty-title{font-size:15px;color:#e1ede4;font-weight:750;margin-bottom:3px}
+.hint{background:#19241d;color:#a5bbab;border:1px solid #304237;border-radius:11px;font-size:11px;line-height:1.55;padding:11px;margin:16px 0 0}
+.incident-panel summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.incident-panel summary::-webkit-details-marker{display:none}
+.incident-panel summary:after{content:"⌄";font-size:21px;color:var(--muted);transition:transform .2s}
+.incident-panel[open] summary:after{transform:rotate(180deg)}
+.incident-panel summary h2{margin:0;font-size:16px;letter-spacing:-.25px}
+.incident-content{padding-top:17px}
+.incident-content>p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 10px}
+.incident-list{list-style:none;padding:0;margin:13px 0 0;display:grid;gap:7px;max-height:280px;overflow:auto}
+.incident-list li{border:1px solid #343c35;background:#1e2320;border-radius:9px;padding:11px 12px;font-size:12px}
+.incident-list strong{display:block;font-size:12px;margin-bottom:5px}
+.incident-list span{color:var(--muted)}
+.incident-list+ .empty{padding:14px 0}
+.footer{font-size:11px;color:#899c8e;line-height:1.6;border-top:1px solid #ffffff10;margin-top:24px;padding-top:18px}
+.section-kicker{display:flex;align-items:center;gap:8px;font-size:11px;color:#a7b6aa;font-weight:750;letter-spacing:.75px}
+.kicker-line{width:18px;height:2px;background:var(--gold);border-radius:4px}
+@media(min-width:1051px){.secondary-column{position:sticky;top:16px}}
+@media(max-width:1050px){.workspace{grid-template-columns:minmax(0,1.25fr) minmax(300px,.95fr);gap:15px}.app{padding:0 18px 30px}.panel{padding:17px}}
+@media(max-width:760px){
+ .app{padding:0 12px 24px}
+ .topbar{height:70px;margin-bottom:16px}
+ .brand strong{font-size:21px}
+ .workspace{display:flex;flex-direction:column;gap:15px}
+ .primary-column,.secondary-column{width:100%;gap:15px}
+ .hero{padding:2px 2px 1px}
+ .hero h1{font-size:28px}
+ .panel{padding:15px;border-radius:16px}
+ .player-shell{margin-bottom:15px}
+ .current-title{font-size:18px}
+ .sound-mark{height:44px;width:44px;flex-basis:44px;padding:11px}
+ .queue-list{max-height:none;overflow:visible}
+ .queue-panel{padding:15px}
+ .panel-head h2{font-size:18px}
+ .footer{margin-top:18px}
+}
+@media(max-width:360px){
+ .tag{display:none}
+ .app{padding:0 10px 24px}
+ .panel{padding:12px}
+ .controls{gap:6px}
+ .controls button{font-size:12px;padding:9px 5px}
+ .form-actions{gap:6px}
+ .form-actions button{font-size:12px;padding:8px}
+ .thumb{width:48px;height:39px;flex-basis:48px}
+ .queue-list li{gap:6px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
 </style>
 </head>
 <body>
-<main>
-<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3.3 · Gratis</span></header>
-<section>
-<h1>Tu música, en una cola</h1>
-<p class="muted small" style="margin:5px 0 0">Prueba el reproductor oficial integrado, sin API key ni servicios de terceros.</p>
-</section>
-<section>
-<h2>01 · Agregar una canción</h2>
-<form id="add-form" class="grid">
-<div><label for="url">Enlace de YouTube o YouTube Music</label><input id="url" type="url" inputmode="url" placeholder="https://youtu.be/..." required autocomplete="off"></div>
-<div><label for="title">Nombre de la canción (automático, editable)</label><input id="title" type="text" maxlength="100" placeholder="Se busca al pegar el enlace..." autocomplete="off"></div>
-<div class="row"><button type="submit" class="primary grow">＋ Agregar a cola</button><button type="button" id="btn-search" class="secondary">🔎 Buscar</button></div>
-</form>
-<div id="add-status" class="status" aria-live="polite"></div>
-<p class="muted small" style="margin:2px 0 0">Se consulta el título del enlace gratuitamente. Si falla, puedes escribirlo; al reproducir, YouTube puede recuperarlo.</p>
-</section>
-<section>
-<div class="row split"><h2 style="margin:0">02 · Reproductor</h2><div id="api-status" class="state"><span class="dot"></span><span>Cargando YouTube…</span></div></div>
-<div class="player-shell"><div id="player"></div></div>
-<div class="current-title" id="current">Sin canción seleccionada</div>
-<div class="row split small muted" style="margin-top:4px"><span id="position">00:00</span><span id="duration">--:--</span></div>
-<progress id="progress" class="progress" value="0" max="100" aria-label="Progreso de canción"></progress>
-<div class="controls"><button id="prev" class="secondary" type="button">↺ Inicio</button><button id="play" class="primary" type="button">▶ Reproducir</button><button id="next" class="secondary" type="button">⏭ Siguiente</button></div>
-<div class="row split" style="margin-top:13px"><label class="toggle"><input id="auto" type="checkbox" checked> Avance automático</label><span id="now-status" class="small muted">En espera</span></div>
-<div class="status" id="player-status" aria-live="polite"></div>
-</section>
-<section>
-<div class="row split"><h2 style="margin:0">03 · Próximas solicitudes</h2><button id="clear" class="btn-small" title="Vaciar cola" aria-label="Vaciar cola">🗑</button></div>
-<div class="stats" style="margin:12px 0"><span id="count" class="stat">0 pendientes</span><span id="total" class="stat">Duración pendiente: desconocida</span></div>
-<ul id="queue" class="queue-list"></ul><div id="empty" class="empty">Aún no hay solicitudes. Agrega un enlace arriba.</div>
-<p class="hint"><strong>Tiempos:</strong> YouTube entrega la duración real cuando el video comienza a cargar. Las canciones pendientes no tienen duración fiable hasta cargarse.</p>
-</section>
-<section>
-<div class="row split"><h2 style="margin:0">04 · Incidencias de reproducción</h2><button id="clear-errors" class="secondary btn-small" type="button" title="Borrar incidencias y desbloquear videos" aria-label="Limpiar incidencias">↺</button></div>
-<p class="small muted" style="margin:9px 0 0">Los videos bloqueados se omiten automáticamente con avance activado. Los errores de configuración requieren intervención.</p>
-<div class="stats" style="margin-top:10px"><span class="stat" id="error-count">0 incidencias</span><span class="stat" id="block-count">0 videos bloqueados en esta sesión</span></div>
-<ul class="incident-list" id="errors"></ul>
-<div id="errors-empty" class="empty">Sin errores registrados.</div>
-</section>
-<div class="footer">Usa enlaces compartidos desde YouTube o YouTube Music. Para reproducir, publica este HTML en un sitio HTTPS (por ejemplo, Firebase Hosting o GitHub Pages): al abrirlo como archivo local, YouTube puede mostrar el error 153. El reproductor debe permanecer visible. La reproducción consecutiva puede requerir pulsar ▶ en el video por las políticas del navegador. Respeta las condiciones de YouTube y los permisos aplicables al contenido.</div>
+
+<main class="app">
+<header class="topbar">
+ <div class="brand"><div class="logo" aria-hidden="true">♫</div><div><strong>MusicFlow</strong><div class="sub">Estación musical · YouTube</div></div></div>
+ <div class="header-right"><span class="tag">v3.4 · Gratis</span></div>
+</header>
+<div class="workspace">
+ <div class="primary-column">
+  <div class="hero">
+   <div class="section-kicker"><span class="kicker-line"></span> ESTACIÓN DE REPRODUCCIÓN</div>
+   <h1>La música comienza aquí.</h1>
+   <p class="muted">Reproduce tus solicitudes con YouTube. Todo el control, en un solo lugar.</p>
+  </div>
+  <section class="panel player-panel" id="reproductor" aria-labelledby="heading-player">
+   <div class="panel-head">
+    <div class="heading-copy"><h2 id="heading-player">Reproductor</h2><p class="heading-subtitle">Video oficial de YouTube</p></div>
+    <div id="api-status" class="state"><span class="dot"></span><span>Conectando…</span></div>
+   </div>
+   <div class="player-shell"><div id="player"></div></div>
+   <div class="now-row">
+    <div class="sound-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="playing-meta">
+     <div class="playing-label">AHORA SUENA</div>
+     <div class="current-title" id="current">Sin canción seleccionada</div>
+     <div class="now-status" id="now-status">En espera</div>
+    </div>
+   </div>
+   <div class="time-row"><span id="position">00:00</span><span id="duration">--:--</span></div>
+   <progress id="progress" class="progress" value="0" max="100" aria-label="Progreso de la canción"></progress>
+   <div class="controls"><button id="prev" type="button" class="secondary">↺ Reiniciar</button><button id="play" type="button" class="primary">▶ Reproducir</button><button id="next" type="button" class="secondary">⏭ Siguiente</button></div>
+   <div class="player-options"><label class="toggle"><input type="checkbox" id="auto" checked> Reproducción automática</label></div>
+   <div class="status" id="player-status" aria-live="polite"></div>
+  </section>
+  <section class="panel add-panel" id="solicitar" aria-labelledby="heading-add">
+   <div class="panel-head"><div class="heading-copy"><h2 id="heading-add">Añadir una canción</h2><p class="heading-subtitle">Pega el enlace y agrégala a la cola</p></div></div>
+   <form id="add-form" class="grid">
+    <div class="form-fields">
+     <div><label class="field-label" for="url">Enlace de YouTube o YouTube Music</label><input id="url" type="url" inputmode="url" placeholder="https://youtu.be/..." required autocomplete="off"></div>
+     <div><label class="field-label" for="title">Título de la canción <span class="muted">(automático y editable)</span></label><input id="title" type="text" maxlength="100" placeholder="Se detecta al pegar el enlace" autocomplete="off"></div>
+    </div>
+    <div class="form-actions"><button type="submit" class="primary">＋ Añadir a la cola</button><button type="button" id="btn-search" class="secondary">⌕ Buscar en YouTube</button></div>
+   </form>
+   <div class="status" id="add-status" aria-live="polite"></div>
+   <p class="form-note">El título se obtiene del enlace cuando está disponible. También puedes escribirlo.</p>
+  </section>
+ </div>
+ <aside class="secondary-column">
+  <section class="panel queue-panel" id="proximas" aria-labelledby="heading-queue">
+   <div class="panel-head">
+    <div class="heading-copy"><div class="eyebrow" style="margin-bottom:6px">A CONTINUACIÓN</div><h2 id="heading-queue">Tu cola de reproducción</h2></div>
+    <button id="clear" class="secondary btn-small" type="button" title="Vaciar cola" aria-label="Vaciar cola">⌫</button>
+   </div>
+   <div class="queue-stats"><span id="count" class="stat">0 pendientes</span><span id="total" class="stat">Duración por calcular</span></div>
+   <ul id="queue" class="queue-list"></ul>
+   <div id="empty" class="queue-empty"><div class="empty-title">Tu cola está vacía</div><div class="empty">Añade canciones y las verás aquí, listas para sonar.</div></div>
+   <p class="hint">La duración de un video se conoce cuando YouTube lo carga. Los tiempos pendientes se muestran al estar disponibles.</p>
+  </section>
+  <details class="panel incident-panel" id="incidencias">
+   <summary><h2>Incidencias de reproducción</h2></summary>
+   <div class="incident-content">
+    <p>Los videos restringidos se saltan automáticamente cuando esa opción está activada.</p>
+    <div class="row split"><div class="queue-stats" style="margin:0"><span id="error-count" class="stat">0 incidencias</span><span id="block-count" class="stat">0 bloqueados</span></div><button id="clear-errors" type="button" class="secondary btn-small" aria-label="Limpiar incidencias" title="Limpiar incidencias">↺</button></div>
+    <ul id="errors" class="incident-list"></ul>
+    <div id="errors-empty" class="empty">Sin errores registrados.</div>
+   </div>
+  </details>
+ </aside>
+</div>
+<footer class="footer">El reproductor oficial de YouTube permanece visible, con sus controles y anuncios. El avance automático puede necesitar una acción manual por restricciones del navegador. Respeta los derechos aplicables al contenido.</footer>
 </main>
+
 <script>
 'use strict';
 (()=>{
