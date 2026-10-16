@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d1018">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>MusicFlow · Reproductor YouTube v3.1</title>
+<title>MusicFlow · Reproductor YouTube v3.2</title>
 <style>
 :root{--bg:#0d1018;--panel:#171c27;--panel2:#202634;--line:#343b4d;--ink:#f5f6fa;--muted:#aab3c5;--gold:#edbd60;--good:#73d8ad;--danger:#ff9b9b}
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
@@ -16,7 +16,7 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:19px;
 </head>
 <body>
 <main>
-<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3.1 · Gratis</span></header>
+<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3.2 · Gratis</span></header>
 <section>
 <h1>Tu música, en una cola</h1>
 <p class="muted small" style="margin:5px 0 0">Prueba el reproductor oficial integrado, sin API key ni servicios de terceros.</p>
@@ -211,7 +211,7 @@ function onError(e){
 }
 window.onYouTubeIframeAPIReady=function(){
  player=new YT.Player('player',{
-  width:'100%',height:'100%',playerVars:{playsinline:1,controls:1,rel:0,origin:location.origin||undefined},
+  width:'100%',height:'100%',playerVars:{playsinline:1,controls:0,disablekb:1,fs:0,rel:0,origin:location.origin||undefined},
   events:{
    onReady:()=>{ready=true;apiStatus('Conectado',true);msg('player-status',interrupted?'Cola restaurada tras recargar. Pulsa ▶ para continuar.':'Listo. Agrega un enlace y pulsa ▶ Reproducir.','ok');pendingAction=false},
    onStateChange:onState,onError:onError,
