@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d1018">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>MusicFlow · Reproductor YouTube v3.2</title>
+<title>MusicFlow · Reproductor YouTube v3.3</title>
 <style>
 :root{--bg:#0d1018;--panel:#171c27;--panel2:#202634;--line:#343b4d;--ink:#f5f6fa;--muted:#aab3c5;--gold:#edbd60;--good:#73d8ad;--danger:#ff9b9b}
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
@@ -16,7 +16,7 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:19px;
 </head>
 <body>
 <main>
-<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3.2 · Gratis</span></header>
+<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3.3 · Gratis</span></header>
 <section>
 <h1>Tu música, en una cola</h1>
 <p class="muted small" style="margin:5px 0 0">Prueba el reproductor oficial integrado, sin API key ni servicios de terceros.</p>
@@ -25,10 +25,11 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:19px;
 <h2>01 · Agregar una canción</h2>
 <form id="add-form" class="grid">
 <div><label for="url">Enlace de YouTube o YouTube Music</label><input id="url" type="url" inputmode="url" placeholder="https://youtu.be/..." required autocomplete="off"></div>
-<div><label for="title">Nombre para mostrar (opcional)</label><input id="title" type="text" maxlength="100" placeholder="Ej.: Mi canción favorita" autocomplete="off"></div>
+<div><label for="title">Nombre de la canción (automático, editable)</label><input id="title" type="text" maxlength="100" placeholder="Se busca al pegar el enlace..." autocomplete="off"></div>
 <div class="row"><button type="submit" class="primary grow">＋ Agregar a cola</button><button type="button" id="btn-search" class="secondary">🔎 Buscar</button></div>
 </form>
 <div id="add-status" class="status" aria-live="polite"></div>
+<p class="muted small" style="margin:2px 0 0">Se consulta el título del enlace gratuitamente. Si falla, puedes escribirlo; al reproducir, YouTube puede recuperarlo.</p>
 </section>
 <section>
 <div class="row split"><h2 style="margin:0">02 · Reproductor</h2><div id="api-status" class="state"><span class="dot"></span><span>Cargando YouTube…</span></div></div>
@@ -125,14 +126,97 @@ function recordIncident(song,code,reason,block=false){
  try{localStorage.setItem(LOG_KEY,JSON.stringify(incidents))}catch{}
  renderErrors();
 }
+
+const TITLE_KEY='musicflow_title_cache_v33';
+const TITLE_AGE=30*24*60*60*1000;
+let titleCache=parse(localStorage,TITLE_KEY,{});
+if(!titleCache||typeof titleCache!=='object'||Array.isArray(titleCache))titleCache={};
+const titlePending=new Map();
+let titleDelay=null;
+function cleanTitle(t){return typeof t==='string'?safeText(t.replace(/\s+/g,' ').trim(),100):''}
+function rememberedTitle(id){
+ const v=titleCache[id];return v&&typeof v.at==='number'&&Date.now()-v.at<TITLE_AGE?cleanTitle(v.title):'';
+}
+function rememberTitle(id,title){
+ title=cleanTitle(title);
+ if(!validId(id)||!title||title==='Video '+id)return;
+ titleCache[id]={title,at:Date.now()};
+ const keys=Object.keys(titleCache);
+ if(keys.length>150){keys.sort((a,b)=>(titleCache[a]?.at||0)-(titleCache[b]?.at||0));keys.slice(0,keys.length-150).forEach(k=>delete titleCache[k])}
+ try{localStorage.setItem(TITLE_KEY,JSON.stringify(titleCache))}catch{}
+}
+async function titleFrom(url){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),4500);
+ try{
+  const response=await fetch(url,{mode:'cors',credentials:'omit',signal:controller.signal});
+  if(!response.ok)throw new Error(String(response.status));
+  const data=await response.json();
+  return cleanTitle(data?.title);
+ }finally{clearTimeout(timer)}
+}
+function findTitle(id){
+ if(!validId(id))return Promise.resolve('');
+ const cached=rememberedTitle(id);
+ if(cached)return Promise.resolve(cached);
+ if(titlePending.has(id))return titlePending.get(id);
+ const videoUrl='https://www.youtube.com/watch?v='+id;
+ const endpoints=[
+  'https://www.youtube.com/oembed?url='+encodeURIComponent(videoUrl)+'&format=json',
+  'https://noembed.com/embed?url='+encodeURIComponent(videoUrl)
+ ];
+ const task=(async()=>{
+  for(const url of endpoints){
+   try{const title=await titleFrom(url);if(title){rememberTitle(id,title);return title}}catch{}
+  }
+  return '';
+ })().finally(()=>titlePending.delete(id));
+ titlePending.set(id,task);
+ return task;
+}
+function replaceMissingTitle(id,title){
+ title=cleanTitle(title);if(!title)return;
+ let changed=false;
+ for(const item of queue){if(item.id===id&&item.title==='Video '+id){item.title=title;changed=true}}
+ if(current&&current.id===id&&current.title==='Video '+id){current.title=title;$('current').textContent=title;changed=true}
+ if(changed){persist();render()}
+}
+function fillTitle(id,title){
+ if(!title||getId($('url').value)!==id)return;
+ const input=$('title');
+ if(!input.value.trim()||input.dataset.auto==='true'){
+  input.value=title;input.dataset.auto='true';msg('add-status','Título detectado: '+title,'ok');
+ }
+}
+function lookupLinkTitle(id){
+ if(!id)return;
+ const title=rememberedTitle(id);
+ if(title){fillTitle(id,title);return}
+ msg('add-status','Buscando nombre del video…');
+ findTitle(id).then(found=>{
+  if(found){fillTitle(id,found);replaceMissingTitle(id,found)}
+  else if(getId($('url').value)===id)msg('add-status','No se pudo obtener el título. Puedes escribirlo manualmente.');
+ });
+}
+function titleFromPlayer(){
+ if(!current||!player)return;
+ try{
+  const data=player.getVideoData();
+  if(data&&data.video_id===current.id){
+   const title=cleanTitle(data.title);
+   if(title){rememberTitle(current.id,title);replaceMissingTitle(current.id,title)}
+  }
+ }catch{}
+}
+
 function onAdd(e){
  e.preventDefault();const id=getId($('url').value);
  if(!id){msg('add-status','Enlace inválido de YouTube o YouTube Music.','error');return}
  if(blocked.has(id)){msg('add-status','Este video falló en esta sesión. Limpia incidencias para volver a probarlo.','error');return}
  if(queue.length>=MAX_QUEUE){msg('add-status','La cola admite 100 solicitudes pendientes.','error');return}
  if((current&&current.id===id)||queue.some(x=>x.id===id)){msg('add-status','Esta canción ya está en la cola o reproduciéndose.','error');return}
- const title=safeText($('title').value.trim()||`Video ${id}`);
- queue.push({id,title});persist();render();$('url').value='';$('title').value='';msg('add-status',`Agregada: ${title}`,'ok');
+ const title=safeText($('title').value.trim()||rememberedTitle(id)||`Video ${id}`);
+ queue.push({id,title});persist();render();$('url').value='';$('url').dataset.lastid='';$('title').value='';$('title').dataset.auto='false';msg('add-status',`Agregada: ${title}`,'ok');
+ if(title==='Video '+id)findTitle(id).then(found=>{if(found)replaceMissingTitle(id,found)});
 }
 function apiStatus(text,ok){$('api-status').innerHTML='';const dot=document.createElement('span');dot.className='dot';dot.style.background=ok?'var(--good)':'var(--gold)';const txt=document.createElement('span');txt.textContent=text;$('api-status').append(dot,txt)}
 function updatePlay(){$('play').textContent=isPlaying?'⏸ Pausar':'▶ Reproducir'}
@@ -177,6 +261,7 @@ function currentVideoMatches(){
 function onState(e){
  if(!current||!currentVideoMatches())return;
  const state=e.data;
+ if(state===YT.PlayerState.PLAYING||state===YT.PlayerState.CUED)titleFromPlayer();
  if(switching&&state===YT.PlayerState.ENDED)return; // Ignora fin tardío del video anterior
  if(state===YT.PlayerState.PLAYING){cancelScheduledSkip();switching=false;isPlaying=true;loading=false;msg('player-status','Reproduciendo desde YouTube.','ok');$('now-status').textContent='Reproduciendo';updateTimes()}
  else if(state===YT.PlayerState.PAUSED){isPlaying=false;$('now-status').textContent='En pausa';msg('player-status','Pausado.')}
@@ -211,7 +296,7 @@ function onError(e){
 }
 window.onYouTubeIframeAPIReady=function(){
  player=new YT.Player('player',{
-  width:'100%',height:'100%',playerVars:{playsinline:1,controls:0,disablekb:1,fs:0,rel:0,origin:location.origin||undefined},
+  width:'100%',height:'100%',playerVars:{playsinline:1,controls:1,rel:0,origin:location.origin||undefined},
   events:{
    onReady:()=>{ready=true;apiStatus('Conectado',true);msg('player-status',interrupted?'Cola restaurada tras recargar. Pulsa ▶ para continuar.':'Listo. Agrega un enlace y pulsa ▶ Reproducir.','ok');pendingAction=false},
    onStateChange:onState,onError:onError,
@@ -220,6 +305,16 @@ window.onYouTubeIframeAPIReady=function(){
  });
 };
 $('add-form').addEventListener('submit',onAdd);
+$('title').addEventListener('input',()=>{$('title').dataset.auto='false'});
+$('url').addEventListener('input',()=>{
+ const id=getId($('url').value),last=$('url').dataset.lastid||'';
+ if(id!==last){
+  if($('title').dataset.auto==='true'){$('title').value='';$('title').dataset.auto='false'}
+  $('url').dataset.lastid=id||'';
+ }
+ if(titleDelay!==null)clearTimeout(titleDelay);
+ if(id)titleDelay=setTimeout(()=>lookupLinkTitle(id),400);
+});
 $('btn-search').addEventListener('click',()=>{const term=prompt('¿Qué canción deseas buscar en YouTube?');if(term&&term.trim())window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(term.trim()),'_blank','noopener,noreferrer')});
 $('play').addEventListener('click',tryPlay);
 $('next').addEventListener('click',()=>advance());
