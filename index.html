@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1018">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>MusicFlow · YouTube Embed Lab</title>
+<style>
+:root{--bg:#0d1018;--panel:#171c27;--panel2:#202634;--line:#343b4d;--ink:#f5f6fa;--muted:#aab3c5;--gold:#edbd60;--good:#73d8ad;--danger:#ff9b9b}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
+main{max-width:640px;margin:auto;padding:16px 14px 42px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px} .brand{display:flex;align-items:center;gap:10px}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#ffe19c,#ce8c32);display:grid;place-items:center;color:#252015;font-size:23px;font-weight:900}.brand strong{font-size:20px;letter-spacing:-.6px}.sub{color:var(--muted);font-size:12px}.tag{font-size:11px;border:1px solid #8a723d;color:#f6d486;background:#332b1d;padding:6px 9px;border-radius:99px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:14px}h1{font-size:22px;line-height:1.25;letter-spacing:-.5px;margin:0 0 5px}h2{font-size:16px;margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:12px}.hint{color:#d0b477;background:#2a261e;border:1px solid #54452b;border-radius:12px;padding:10px;font-size:12px;margin:10px 0 0}.grid{display:grid;gap:10px}.row{display:flex;gap:8px;align-items:center}.split{justify-content:space-between}.grow{flex:1;min-width:0}label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}input{width:100%;height:46px;background:#0f1420;border:1px solid #4a5366;color:#fff;border-radius:11px;padding:0 12px;font:inherit;outline:none}input:focus{border-color:var(--gold);box-shadow:0 0 0 2px #eab34b30}input::placeholder{color:#7d879a}button,a.btn{appearance:none;border:0;cursor:pointer;border-radius:11px;min-height:42px;padding:10px 13px;background:#2b3243;color:#fafafa;font-weight:750;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}button.primary{background:var(--gold);color:#1f1a10;font-weight:800}button.secondary{border:1px solid var(--line)}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.full{width:100%}.player-shell{background:#000;border-radius:12px;overflow:hidden;border:1px solid #303844;margin:12px 0;min-height:200px;aspect-ratio:16 / 9}.player-shell iframe{display:block;width:100%;height:100%;min-height:200px;border:0}.state{font-size:12px;color:var(--good);display:flex;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:50%;background:var(--good)}.current-title{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.progress{appearance:none;width:100%;height:8px;border:0;border-radius:99px;background:#383f4f;overflow:hidden;margin:8px 0}.progress::-webkit-progress-bar{background:#383f4f;border-radius:99px}.progress::-webkit-progress-value{background:var(--gold);border-radius:99px}.progress::-moz-progress-bar{background:var(--gold);border-radius:99px}.controls{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px;margin-top:10px}.controls button{height:48px}.queue-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}.queue-list li{padding:10px;background:#111722;border:1px solid #333c4e;border-radius:12px;display:flex;align-items:center;gap:9px}.thumb{width:56px;aspect-ratio:16/10;object-fit:cover;border-radius:7px;background:#303747;flex-shrink:0}.song-title{font-size:13px;font-weight:700;overflow-wrap:anywhere;line-height:1.25}.mini{font-size:11px;color:var(--muted);margin-top:2px}.btn-small{min-width:37px;min-height:36px;padding:5px!important;font-size:16px}.empty{text-align:center;padding:19px 10px;color:var(--muted);font-size:13px}.status{color:var(--muted);font-size:12px;min-height:20px;margin-top:9px}.status.error{color:var(--danger)}.status.ok{color:var(--good)}.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#1f2735;border:1px solid #394257;padding:7px 10px;border-radius:9px;font-size:12px}.footer{font-size:12px;line-height:1.6;color:var(--muted)}.toggle{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:650}.toggle input{width:18px;height:18px;accent-color:var(--gold)}.searchlink{font-size:12px;color:#f3d28e;text-decoration:underline;text-underline-offset:3px}.warning{color:#ffc8a4}#player-placeholder{height:100%;min-height:200px;display:grid;place-items:center;text-align:center;color:#b2b4bb;padding:15px}
+@media(min-width:530px){main{padding:23px 20px 44px}.player-shell{min-height:260px}.player-shell iframe{min-height:260px}}@media(max-width:350px){.brand strong{font-size:18px}button{padding:9px 9px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="brand"><div class="logo">♫</div><div><strong>MusicFlow</strong><div class="sub">Laboratorio · Reproductor YouTube</div></div></div><span class="tag">v3 · Gratis</span></header>
+<section>
+<h1>Tu música, en una cola</h1>
+<p class="muted small" style="margin:5px 0 0">Prueba el reproductor oficial integrado, sin API key ni servicios de terceros.</p>
+</section>
+<section>
+<h2>01 · Agregar una canción</h2>
+<form id="add-form" class="grid">
+<div><label for="url">Enlace de YouTube o YouTube Music</label><input id="url" type="url" inputmode="url" placeholder="https://youtu.be/..." required autocomplete="off"></div>
+<div><label for="title">Nombre para mostrar (opcional)</label><input id="title" type="text" maxlength="100" placeholder="Ej.: Mi canción favorita" autocomplete="off"></div>
+<div class="row"><button type="submit" class="primary grow">＋ Agregar a cola</button><button type="button" id="btn-search" class="secondary">🔎 Buscar</button></div>
+</form>
+<div id="add-status" class="status" aria-live="polite"></div>
+</section>
+<section>
+<div class="row split"><h2 style="margin:0">02 · Reproductor</h2><div id="api-status" class="state"><span class="dot"></span><span>Cargando YouTube…</span></div></div>
+<div class="player-shell"><div id="player"></div></div>
+<div class="current-title" id="current">Sin canción seleccionada</div>
+<div class="row split small muted" style="margin-top:4px"><span id="position">00:00</span><span id="duration">--:--</span></div>
+<progress id="progress" class="progress" value="0" max="100" aria-label="Progreso de canción"></progress>
+<div class="controls"><button id="prev" class="secondary" type="button">↺ Inicio</button><button id="play" class="primary" type="button">▶ Reproducir</button><button id="next" class="secondary" type="button">⏭ Siguiente</button></div>
+<div class="row split" style="margin-top:13px"><label class="toggle"><input id="auto" type="checkbox" checked> Avance automático</label><span id="now-status" class="small muted">En espera</span></div>
+<div class="status" id="player-status" aria-live="polite"></div>
+</section>
+<section>
+<div class="row split"><h2 style="margin:0">03 · Próximas solicitudes</h2><button id="clear" class="btn-small" title="Vaciar cola" aria-label="Vaciar cola">🗑</button></div>
+<div class="stats" style="margin:12px 0"><span id="count" class="stat">0 pendientes</span><span id="total" class="stat">Duración pendiente: desconocida</span></div>
+<ul id="queue" class="queue-list"></ul><div id="empty" class="empty">Aún no hay solicitudes. Agrega un enlace arriba.</div>
+<p class="hint"><strong>Tiempos:</strong> YouTube entrega la duración real cuando el video comienza a cargar. Las canciones pendientes no tienen duración fiable hasta cargarse.</p>
+</section>
+<div class="footer">Usa enlaces compartidos desde YouTube o YouTube Music. Para reproducir, publica este HTML en un sitio HTTPS (por ejemplo, Firebase Hosting o GitHub Pages): al abrirlo como archivo local, YouTube puede mostrar el error 153. El reproductor debe permanecer visible. La reproducción consecutiva puede requerir pulsar ▶ en el video por las políticas del navegador. El contenido empresarial requiere permisos de reproducción pública.</div>
+</main>
+<script>
+'use strict';
+(()=>{
+const STORAGE='musicflow_embed_v3_queue', AUTO_KEY='musicflow_embed_v3_auto';
+const $=(id)=>document.getElementById(id);
+const safeText=(s,max=100)=>String(s??'').slice(0,max);
+let queue=[], current=null, player=null, ready=false, isPlaying=false, loading=false, pendingAction=false, lastDuration=0;
+try {const data=JSON.parse(localStorage.getItem(STORAGE)||'[]'); if(Array.isArray(data)) queue=data.filter(x=>x && /^[a-zA-Z0-9_-]{11}$/.test(x.id)).slice(0,100).map(x=>({id:x.id,title:safeText(x.title)||`Video ${x.id}`}));} catch {}
+try{$('auto').checked=localStorage.getItem(AUTO_KEY)!=='false'}catch{}
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify(queue))}catch{}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(s){if(!Number.isFinite(s)||s<=0)return '--:--';s=Math.floor(s);return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+function msg(id,text,type=''){const el=$(id);el.textContent=text;el.className='status '+type}
+function getId(str){const s=String(str||'').trim();if(/^[\w-]{11}$/.test(s))return s;try{const url=new URL(s);const host=url.hostname.toLowerCase().replace(/^www\./,'');let id=null;if(['youtube.com','m.youtube.com','music.youtube.com','youtube-nocookie.com'].includes(host)){if(url.pathname==='/watch')id=url.searchParams.get('v');else {const p=url.pathname.split('/').filter(Boolean);if(['embed','shorts','live','v'].includes(p[0]))id=p[1]}}else if(host==='youtu.be'){id=url.pathname.slice(1).split('/')[0]}return id && /^[\w-]{11}$/.test(id) ?id:null}catch{return null}}
+function render(){const ul=$('queue');ul.innerHTML='';$('empty').hidden=queue.length>0;$('count').textContent=`${queue.length} pendiente${queue.length===1?'':'s'}`;$('total').textContent='Duración pendiente: por calcular';
+queue.forEach((t,i)=>{const li=document.createElement('li');li.innerHTML=`<img class="thumb" alt="" loading="lazy" src="https://i.ytimg.com/vi/${t.id}/mqdefault.jpg"><div class="grow"><div class="song-title">${esc(t.title)}</div><div class="mini">#${i+1} · YouTube · duración pendiente</div></div><button type="button" class="btn-small secondary" aria-label="Reproducir esta canción" title="Reproducir" data-action="play" data-index="${i}">▶</button><button type="button" class="btn-small secondary" aria-label="Quitar canción" title="Quitar" data-action="remove" data-index="${i}">×</button>`;ul.appendChild(li)})}
+function onAdd(e){e.preventDefault();const id=getId($('url').value);if(!id){msg('add-status','Enlace no válido. Usa youtube.com/watch?v=…, youtu.be/… o music.youtube.com/watch?v=…','error');return}if(queue.length>=100){msg('add-status','Límite de 100 solicitudes en esta prueba.','error');return}let title=$('title').value.trim()||`Video ${id}`;if((current&&current.id===id)||queue.some(x=>x.id===id)){msg('add-status','Esa canción ya está en la cola o reproduciéndose.','error');return}queue.push({id,title:safeText(title)});save();render();$('url').value='';$('title').value='';msg('add-status',`Agregada: ${title}`,'ok')}
+function apiStatus(text,ok){$('api-status').innerHTML='';const dot=document.createElement('span');dot.className='dot';dot.style.background=ok?'var(--good)':'var(--gold)';const txt=document.createElement('span');txt.textContent=text;$('api-status').append(dot,txt)}
+function tryPlay(){if(!player||!ready){pendingAction=true;msg('player-status','Cargando el reproductor. Cuando esté listo, pulsa Reproducir.');return}if(!current){if(!queue.length){msg('player-status','Primero agrega una canción a la cola.');return} current=queue.shift();save();render();$('current').textContent=current.title;lastDuration=0;loading=true;player.loadVideoById(current.id);msg('player-status','Cargando video…');return}if(!loading && !isPlaying){player.playVideo()}else if(isPlaying){player.pauseVideo()}else {player.playVideo()}}
+function next(){if(!queue.length){if(player&&ready)player.stopVideo();current=null;isPlaying=false;loading=false;lastDuration=0;$('current').textContent='Cola terminada';$('position').textContent='00:00';$('duration').textContent='--:--';$('progress').value=0;updatePlay();msg('player-status','No quedan solicitudes.','ok');render();return}current=queue.shift();save();render();$('current').textContent=current.title;loading=true;isPlaying=false;lastDuration=0;$('position').textContent='00:00';$('duration').textContent='--:--';$('progress').value=0;updatePlay();if(ready&&player){player.loadVideoById(current.id);msg('player-status','Cargando la siguiente canción…')}else{msg('player-status','Reproductor todavía no disponible.','error')}}
+function updatePlay(){$('play').textContent=isPlaying?'⏸ Pausar':'▶ Reproducir'}
+function updateTimes(){if(!ready||!player||!current)return;try{const d=player.getDuration(),t=player.getCurrentTime();if(Number.isFinite(d)&&d>0){lastDuration=d;$('duration').textContent=fmt(d);$('progress').value=Math.min(100,Math.max(0,t/d*100))}if(Number.isFinite(t)) $('position').textContent=fmt(t);if(lastDuration&&isPlaying)$('now-status').textContent=`Restan ${fmt(Math.max(0,lastDuration-t))}`}catch{}}
+function onState(e){const state=e.data;if(state===YT.PlayerState.PLAYING){isPlaying=true;loading=false;msg('player-status','Reproduciendo desde YouTube.','ok');$('now-status').textContent='Reproduciendo';updateTimes()}else if(state===YT.PlayerState.PAUSED){isPlaying=false;$('now-status').textContent='En pausa';msg('player-status','Pausado.')}else if(state===YT.PlayerState.BUFFERING){isPlaying=false;$('now-status').textContent='Cargando…'}else if(state===YT.PlayerState.CUED){loading=false;$('now-status').textContent='Listo'}else if(state===YT.PlayerState.ENDED){isPlaying=false;loading=false;$('now-status').textContent='Finalizada';if($('auto').checked) next();else msg('player-status','Canción terminada. Pulsa Siguiente para continuar.')}updatePlay()}
+function onError(e){isPlaying=false;loading=false;updatePlay();const x=e.data;const t=x===153?'Error 153: abre el HTML desde un sitio HTTPS con referencia válida.':(x===101||x===150)?'El propietario bloqueó la reproducción integrada de este video.':x===100?'Video privado, eliminado o no disponible.':`YouTube devolvió el error ${x}.`;msg('player-status',t+' Puedes saltarlo con Siguiente.','error');$('now-status').textContent='Error'}
+window.onYouTubeIframeAPIReady=function(){player=new YT.Player('player',{width:'100%',height:'100%',playerVars:{playsinline:1,controls:1,rel:0,origin:(location.origin||undefined)},events:{onReady:()=>{ready=true;apiStatus('Conectado',true);msg('player-status','Listo. Agrega un enlace y pulsa ▶ Reproducir.','ok');if(pendingAction) pendingAction=false},onStateChange:onState,onError:onError,onAutoplayBlocked:()=>{isPlaying=false;updatePlay();msg('player-status','El navegador bloqueó la reproducción automática. Pulsa ▶ en el reproductor de YouTube.','error')}}})};
+$('add-form').addEventListener('submit',onAdd);
+$('btn-search').addEventListener('click',()=>{const term=prompt('¿Qué canción deseas buscar en YouTube?');if(term&&term.trim()){window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(term.trim()),'_blank','noopener,noreferrer')}});
+$('play').addEventListener('click',tryPlay);
+$('next').addEventListener('click',next);
+$('prev').addEventListener('click',()=>{if(current&&player&&ready){player.seekTo(0,true);player.playVideo()}});
+$('auto').addEventListener('change',()=>{try{localStorage.setItem(AUTO_KEY,String($('auto').checked))}catch{}});
+$('queue').addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const i=Number(btn.dataset.index);if(!Number.isInteger(i)||i<0||i>=queue.length)return;if(btn.dataset.action==='remove'){queue.splice(i,1);save();render()}else{const item=queue.splice(i,1)[0];if(current)queue.unshift(current);queue.unshift(item);current=null;save();render();next()}});
+$('clear').addEventListener('click',()=>{if(!queue.length)return;if(confirm('¿Vaciar todas las solicitudes pendientes?')){queue=[];save();render();msg('player-status','Cola pendiente vaciada.')}});
+render(); updatePlay();setInterval(updateTimes,700);
+const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';s.async=true;s.onerror=()=>{apiStatus('Sin conexión',false);msg('player-status','No se pudo cargar YouTube. Comprueba tu conexión.','error')};document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
